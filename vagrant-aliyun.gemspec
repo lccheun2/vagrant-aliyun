@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
   s.rubyforge_project         = "vagrant-aliyun"
 
   s.add_runtime_dependency "aliyun-api", "~> 0.0.7"
+  s.add_runtime_dependency "ruby-hmac", "~> 0.4.0"
 
   # The following block of code determines the files that should be included
   # in the gem. It does this by reading all the files in the directory where
