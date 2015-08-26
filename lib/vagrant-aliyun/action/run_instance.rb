@@ -36,7 +36,11 @@ module VagrantPlugins
           env[:ui].info(" -- Instance Type: #{config.instance_type}")
           env[:ui].info(" -- Internet Max Bandwidth Out: #{config.internet_max_bandwidth_out}")
           env[:ui].info(" -- Security Group ID: #{config.security_group_id}")
-          instance = ecs.create_instance :region_id=>config.region_id,:image_id=>config.image_id,:instance_type=>config.instance_type,:internet_max_bandwidth_out=>config.internet_max_bandwidth_out,:security_group_id=>config.security_group_id,:password=>config.password
+          env[:ui].info(" -- Instance Charge Type: #{config.instance_charge_type}")
+          if config.instance_charge_type == 'PrePaid'
+            env[:ui].info(" -- Instance Period: #{config.instance_period}")
+          end
+          instance = ecs.create_instance :region_id=>config.region_id,:image_id=>config.image_id,:instance_type=>config.instance_type,:internet_max_bandwidth_out=>config.internet_max_bandwidth_out,:security_group_id=>config.security_group_id,:password=>config.password,:instance_charge_type=>config.instance_charge_type,:period=>config.instance_period
           ecs.allocate_public_ip_address :instance_id=>instance["InstanceId"]
           env[:ui].info(I18n.t("vagrant_aliyun.starting"))
           ecs.start_instance :instance_id=>instance["InstanceId"]

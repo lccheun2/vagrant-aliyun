@@ -12,6 +12,8 @@ module VagrantPlugins
       attr_accessor :internet_max_bandwidth_out
       attr_accessor :security_group_id
       attr_accessor :password
+      attr_accessor :instance_charge_type
+      attr_accessor :instance_period
       attr_accessor :instance_ready_timeout
 
       def initialize()
@@ -23,7 +25,9 @@ module VagrantPlugins
         @internet_max_bandwidth_out = UNSET_VALUE
         @security_group_id = UNSET_VALUE
         @password = UNSET_VALUE
-        @instance_ready_timeout    = UNSET_VALUE
+        @instance_charge_type = UNSET_VALUE
+        @instance_period = UNSET_VALUE
+        @instance_ready_timeout = UNSET_VALUE
       end
 
       def finalize!
@@ -35,6 +39,8 @@ module VagrantPlugins
         @internet_max_bandwidth_out = nil if @internet_max_bandwidth_out == UNSET_VALUE
         @security_group_id = nil if @security_group_id == UNSET_VALUE
         @password = nil if @password == UNSET_VALUE
+        @instance_charge_type = nil if @instance_charge_type == UNSET_VALUE
+        @instance_period = nil if @instance_period == UNSET_VALUE
         @instance_ready_timeout = 120 if @instance_ready_timeout == UNSET_VALUE
       end
 
@@ -48,6 +54,10 @@ module VagrantPlugins
         errors << I18n.t("vagrant_aliyun.config.internet_max_bandwidth_out_required") if @internet_max_bandwidth_out.nil?
         errors << I18n.t("vagrant_aliyun.config.security_group_id_required") if @security_group_id.nil?
         errors << I18n.t("vagrant_aliyun.config.password_required") if @password.nil?
+        errors << I18n.t("vagrant_aliyun.config.instance_charge_type_required") if @instance_charge_type.nil?
+        if @instance_charge_type != nil && @instance_charge_type == 'PrePaid' && @instance_period == nil
+          errors << I18n.t("vagrant_aliyun.config.instance_period_required")
+        end
         { "Aliyun Provider" => errors }
       end
     end
